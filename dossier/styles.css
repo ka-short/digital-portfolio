@@ -545,6 +545,7 @@ section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
   border-bottom: 1px solid var(--rule);
 }
 .frame:last-child { border-bottom: none; }
+.frame { --dot-scale: 1; }
 .frame::before {
   content: "";
   position: absolute;
@@ -552,6 +553,8 @@ section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
   width: 12px; height: 12px;
   background: var(--paper);
   border: 2px solid var(--red);
+  transform: scale(var(--dot-scale));
+  transform-origin: center;
 }
 .frame .week-tag {
   position: absolute;
@@ -601,6 +604,7 @@ section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
   color: var(--ink);
   font-style: italic;
 }
+.reflect-piece .quote { --quote-scale: 1; }
 .reflect-piece .quote::before {
   content: "“";
   font-size: 80px;
@@ -609,6 +613,8 @@ section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
   position: absolute;
   top: -12px; left: -32px;
   font-family: var(--serif);
+  transform: scale(var(--quote-scale));
+  transform-origin: top left;
 }
 .reflect-piece .num {
   font-family: var(--mono);
