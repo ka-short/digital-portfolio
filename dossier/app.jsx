@@ -35,12 +35,12 @@ function Masthead() {
           <div className="right">
             {date}<br />
             SINGAPORE EDITION<br />
-            ESTABLISHED JAN 2026
+            ESTABLISHED MAR 2026
           </div>
         </div>
         <div className="mast-bar">
-          <span>20 weeks · 5 artifacts · 2 RFCs · 1 internship</span>
-          <span>misha@example.com · linkedin · github</span>
+          <span>56 weeks · ∞ artifacts · 2 RFCs · 1 internship</span>
+          <span>icyneonlights@gmail.com · linkedin · github</span>
           <span>"Calibration, not intuition."</span>
         </div>
       </div>
@@ -111,7 +111,7 @@ function About() {
           </article>
           <article data-num="03">
             <div className="lbl">— THE PROJECT</div>
-            <h3>Project ATLAS</h3>
+            <h3>Project MMP</h3>
             <p>{a.project}</p>
           </article>
         </div>
