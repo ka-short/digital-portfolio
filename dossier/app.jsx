@@ -55,7 +55,9 @@ function Hero() {
       <div className="shell">
         <div className="hero-grid reveal">
           <aside className="id-card">
-            <div className="id-photo">PHOTO PLACEHOLDER</div>
+            <div className="id-photo">
+              <img src="images/photo.jpg" alt={id.name} />
+            </div>
             <dl>
               <dt>NAME</dt><dd>{id.name}</dd>
               <dt>ROLE</dt><dd>{id.role}</dd>
@@ -230,11 +232,7 @@ function Artifacts() {
             <article className="artifact-feat reveal" key={a.id}>
               <div className="a-img">
                 <span className="corner">FIG. {String(i + 1).padStart(2, "0")}</span>
-                <div className="label">
-                  <strong>{a.title.split(" — ")[0]}</strong>
-                  {a.kind} · screenshot or demo<br />
-                  drop here · 4:3
-                </div>
+                <img src={`images/${a.id}.jpg`} alt={a.title} />
               </div>
               <div>
                 <div className="a-num">No. {String(i + 1).padStart(2, "0")} of {P.artifacts.length}</div>
