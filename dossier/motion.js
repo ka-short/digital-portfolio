@@ -6,7 +6,6 @@
 (function () {
   const start = () => {
     if (!window.gsap || !window.ScrollTrigger) {
-      // GSAP not loaded yet — wait one frame and retry.
       return setTimeout(start, 60);
     }
     if (!document.querySelector(".mast")) {
@@ -16,14 +15,17 @@
     const { gsap, ScrollTrigger } = window;
     gsap.registerPlugin(ScrollTrigger);
 
-    // Disable the existing CSS-fade reveal on elements we'll animate directly,
-    // so they don't double-animate or stay invisible.
+    // Helper: ScrollTrigger config that fades in on enter and fades out on leave.
+    const fade = (trigger, start = "top 85%", end = "bottom 15%") => ({
+      trigger, start, end,
+      toggleActions: "play reverse play reverse",
+    });
+
     const noFade = (sel) => document.querySelectorAll(sel).forEach((el) => el.classList.remove("reveal"));
 
     /* ───────── 1. Hero — letter-by-letter title + stamp slam ───────── */
     const display = document.querySelector("h1.display");
     if (display) {
-      // Split text manually (no SplitText plugin needed) — wrap each letter.
       const splitNode = (node) => {
         const out = [];
         node.childNodes.forEach((child) => {
@@ -34,7 +36,7 @@
               s.className = "g-letter";
               s.style.display = "inline-block";
               s.style.willChange = "transform, opacity";
-              s.textContent = ch === " " ? "\u00a0" : ch;
+              s.textContent = ch === " " ? " " : ch;
               frag.appendChild(s);
               out.push(s);
             });
@@ -76,7 +78,6 @@
         delay: 1.1,
         ease: "back.out(2)",
       });
-      // tiny shake after landing
       gsap.to(stamp, {
         rotate: "-=2",
         duration: 0.08,
@@ -91,7 +92,6 @@
     gsap.from(".mast-row > div", { y: -14, opacity: 0, duration: 0.7, stagger: 0.08, ease: "power2.out" });
     gsap.from(".mast-bar > span", { opacity: 0, y: -6, duration: 0.5, stagger: 0.1, delay: 0.5, ease: "power2.out" });
 
-    // Counter on the "20 weeks" line
     const counterEl = document.querySelector(".mast-bar > span:first-child");
     if (counterEl) {
       const obj = { weeks: 0, arts: 0, rfcs: 0 };
@@ -120,17 +120,16 @@
       const ttl = head.querySelector(".ttl");
       const stub = head.querySelector(".stub");
 
-      // Entry
       gsap.from(head, {
-        scrollTrigger: { trigger: head, start: "top 85%", once: true },
+        scrollTrigger: fade(head, "top 85%"),
         y: 24, opacity: 0, duration: 0.8, ease: "power2.out",
       });
       if (ttl) gsap.from(ttl.children, {
-        scrollTrigger: { trigger: head, start: "top 85%", once: true },
+        scrollTrigger: fade(head, "top 85%"),
         y: 14, opacity: 0, duration: 0.6, stagger: 0.08, delay: 0.2, ease: "power2.out",
       });
 
-      // Parallax the numeral
+      // Parallax the numeral (scrub — no fade override)
       if (num) {
         gsap.fromTo(num,
           { y: 30 },
@@ -153,34 +152,31 @@
       }
     });
 
-    /* ───────── 4. Crop marks — draw in on enter ───────── */
+    /* ───────── 4. Crop marks — draw in on enter, out on leave ───────── */
     document.querySelectorAll(".crop").forEach((sec) => {
-      // Use pseudo-elements via CSS variables — animate clip-path-like via opacity + scale.
-      // Easier: animate two real corner divs we inject.
-      const tl = gsap.fromTo(sec, { "--crop-show": 0 }, {
+      gsap.fromTo(sec, { "--crop-show": 0 }, {
         "--crop-show": 1,
         ease: "power2.out",
         duration: 0.6,
-        scrollTrigger: { trigger: sec, start: "top 80%", once: true },
+        scrollTrigger: fade(sec, "top 80%"),
       });
     });
 
     /* ───────── 5. About cards — cascade ───────── */
     noFade(".about");
     gsap.from(".about article", {
-      scrollTrigger: { trigger: ".about", start: "top 80%", once: true },
+      scrollTrigger: fade(".about", "top 80%"),
       y: 30, opacity: 0, duration: 0.8, stagger: 0.12, ease: "power3.out",
     });
 
     /* ───────── 6. KSA columns + bars ───────── */
     noFade(".ksa-wrap");
     gsap.from(".ksa-col", {
-      scrollTrigger: { trigger: ".ksa-wrap", start: "top 80%", once: true },
+      scrollTrigger: fade(".ksa-wrap", "top 80%"),
       y: 24, opacity: 0, duration: 0.7, stagger: 0.12, ease: "power3.out",
     });
-    // Pip bars roll on
     gsap.from(".k-item .lvl span.on", {
-      scrollTrigger: { trigger: ".ksa-wrap", start: "top 75%", once: true },
+      scrollTrigger: fade(".ksa-wrap", "top 75%"),
       scaleX: 0, transformOrigin: "left center",
       duration: 0.5, stagger: 0.02, delay: 0.3, ease: "power2.out",
     });
@@ -188,7 +184,7 @@
     // TSC table rows
     noFade(".refs");
     gsap.from(".refs table tbody tr", {
-      scrollTrigger: { trigger: ".refs", start: "top 80%", once: true },
+      scrollTrigger: fade(".refs", "top 80%"),
       x: -16, opacity: 0, duration: 0.5, stagger: 0.05, ease: "power2.out",
     });
 
@@ -196,17 +192,17 @@
     noFade(".artifact-feat");
     document.querySelectorAll(".artifact-feat").forEach((piece, i) => {
       const img = piece.querySelector(".a-img");
-      const body = piece.children[piece.children.length - 1]; // text column
+      const body = piece.children[piece.children.length - 1];
       const fromLeftIsImg = i % 2 === 0;
       gsap.from(img, {
-        scrollTrigger: { trigger: piece, start: "top 80%", once: true },
+        scrollTrigger: fade(piece, "top 80%"),
         x: fromLeftIsImg ? -50 : 50, opacity: 0, duration: 0.9, ease: "power3.out",
       });
       gsap.from(body, {
-        scrollTrigger: { trigger: piece, start: "top 80%", once: true },
+        scrollTrigger: fade(piece, "top 80%"),
         x: fromLeftIsImg ? 50 : -50, opacity: 0, duration: 0.9, ease: "power3.out", delay: 0.1,
       });
-      // Ken Burns: subtle scale on image while in viewport
+      // Ken Burns: subtle scale on image while in viewport (scrub — unchanged)
       if (img) {
         gsap.fromTo(img, { scale: 1.0 }, {
           scale: 1.06,
@@ -237,13 +233,12 @@
     }
     document.querySelectorAll(".frame").forEach((f) => {
       gsap.from(f, {
-        scrollTrigger: { trigger: f, start: "top 85%", once: true },
+        scrollTrigger: fade(f, "top 85%"),
         x: 30, opacity: 0, duration: 0.7, ease: "power3.out",
       });
-      // pop the red dot (::before pseudo) — animate via CSS var
       gsap.fromTo(f, { "--dot-scale": 0 }, {
         "--dot-scale": 1, duration: 0.5, ease: "back.out(2)",
-        scrollTrigger: { trigger: f, start: "top 85%", once: true },
+        scrollTrigger: fade(f, "top 85%"),
       });
     });
 
@@ -254,24 +249,23 @@
       const num = piece.querySelector(".left .num");
       const acts = piece.querySelectorAll(".act");
       gsap.from(num, {
-        scrollTrigger: { trigger: piece, start: "top 80%", once: true },
+        scrollTrigger: fade(piece, "top 80%"),
         y: 12, opacity: 0, duration: 0.5, ease: "power2.out",
       });
       if (quote) {
         gsap.from(quote, {
-          scrollTrigger: { trigger: piece, start: "top 80%", once: true },
+          scrollTrigger: fade(piece, "top 80%"),
           y: 18, opacity: 0, duration: 0.8, delay: 0.1, ease: "power3.out",
         });
-        // ::before quote mark — animate the entire quote's font-size scale via CSS var trick:
         gsap.fromTo(quote, { "--quote-scale": 0.4 }, {
           "--quote-scale": 1,
           duration: 0.9,
           ease: "back.out(2)",
-          scrollTrigger: { trigger: piece, start: "top 80%", once: true },
+          scrollTrigger: fade(piece, "top 80%"),
         });
       }
       gsap.from(acts, {
-        scrollTrigger: { trigger: piece, start: "top 75%", once: true },
+        scrollTrigger: fade(piece, "top 75%"),
         y: 24, opacity: 0, duration: 0.6, stagger: 0.1, delay: 0.2, ease: "power3.out",
       });
     });
@@ -279,18 +273,17 @@
     /* ───────── 10. Outlook ───────── */
     noFade(".outlook");
     gsap.from(".outlook article", {
-      scrollTrigger: { trigger: ".outlook", start: "top 80%", once: true },
+      scrollTrigger: fade(".outlook", "top 80%"),
       y: 30, opacity: 0, duration: 0.7, stagger: 0.12, ease: "power3.out",
     });
     gsap.from(".next-strip", {
-      scrollTrigger: { trigger: ".next-strip", start: "top 85%", once: true },
+      scrollTrigger: fade(".next-strip", "top 85%"),
       scale: 0.96, opacity: 0, duration: 0.7, ease: "power3.out",
     });
 
     /* ───────── 11. Colophon — letter reveal on "End of file." ───────── */
     const foot = document.querySelector(".colophon h2");
     if (foot) {
-      // wrap each letter
       const wrap = (node) => {
         const out = [];
         node.childNodes.forEach((child) => {
@@ -300,7 +293,7 @@
               const s = document.createElement("span");
               s.className = "g-letter";
               s.style.display = "inline-block";
-              s.textContent = ch === " " ? "\u00a0" : ch;
+              s.textContent = ch === " " ? " " : ch;
               frag.appendChild(s);
               out.push(s);
             });
@@ -324,7 +317,6 @@
     }
   };
 
-  // Wait for React to render content first.
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => setTimeout(start, 80));
   } else {
