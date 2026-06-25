@@ -1,0 +1,370 @@
+/* ============================================================
+   MISHA-OS  —  retro red/black desktop, framed in a laptop.
+   Two pixel fonts only: Silkscreen (chrome) + VT323 (body).
+   ============================================================ */
+
+:root {
+  --red:        #d4271f;
+  --red-bright: #ef3a2d;
+  --red-dark:   #8c1410;
+  --red-deep:   #5c0d0a;
+  --black:      #16110f;
+  --ink:        #1a1310;
+  --bone:       #efe6d2;
+  --bone-2:     #e2d6bd;
+  --bone-3:     #d4c5a6;
+  --line:       #1a1310;
+  --shadow:     rgba(20,12,10,.85);
+
+  --chrome: "Silkscreen", "Courier New", monospace;
+  --body:   "VT323", "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; height: 100%;
+  background: #0b0807;
+  font-family: var(--body);
+  color: var(--ink);
+  -webkit-font-smoothing: none;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+}
+
+/* ---------- LAPTOP FRAME ---------- */
+.laptop {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: clamp(8px, 2.4vmin, 28px);
+  background:
+    radial-gradient(120% 90% at 50% 0%, #211a16 0%, #0b0807 70%);
+}
+.laptop-body {
+  width: min(1180px, 100%);
+  height: min(760px, 100%);
+  display: flex; flex-direction: column;
+}
+.bezel {
+  flex: 1;
+  background: #1c1714;
+  border: 1px solid #2c241e;
+  border-radius: 14px 14px 4px 4px;
+  padding: clamp(10px, 1.8vmin, 20px);
+  padding-top: clamp(20px, 3vmin, 34px);
+  box-shadow: inset 0 0 0 2px #0c0908, 0 24px 60px rgba(0,0,0,.55);
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.bezel::before { /* webcam */
+  content: ""; position: absolute; top: clamp(8px,1.3vmin,14px); left: 50%;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #3a302a; box-shadow: inset 0 0 0 2px #0c0908;
+  transform: translateX(-50%);
+}
+.brand {
+  position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
+  font-family: var(--chrome); font-size: 9px; letter-spacing: 2px;
+  color: #4a3f37;
+}
+/* laptop hinge / deck hint */
+.deck {
+  height: clamp(10px, 2vmin, 22px);
+  width: 112%;
+  align-self: center;
+  background: linear-gradient(#211a16, #14100d);
+  border: 1px solid #2c241e; border-top: none;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.5);
+  position: relative;
+}
+.deck::before {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: clamp(70px,12vmin,150px); height: 6px;
+  background: #0c0908; border-radius: 0 0 8px 8px;
+}
+
+/* ---------- THE SCREEN ---------- */
+.screen {
+  flex: 1; position: relative; overflow: hidden;
+  border: 2px solid #000;
+  background: var(--black);
+  border-radius: 3px;
+}
+/* wallpaper variants */
+.screen[data-wall="grid"] {
+  background-color: var(--black);
+  background-image:
+    linear-gradient(rgba(212,39,31,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,39,31,.10) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+.screen[data-wall="dots"] {
+  background-color: var(--black);
+  background-image: radial-gradient(rgba(212,39,31,.18) 1.4px, transparent 1.6px);
+  background-size: 20px 20px;
+}
+.screen[data-wall="solid"] { background: #1d0807; }
+.screen[data-wall="diag"] {
+  background-color: var(--black);
+  background-image: repeating-linear-gradient(45deg,
+     rgba(212,39,31,.07) 0 10px, transparent 10px 20px);
+}
+
+/* CRT scanlines + glow */
+.crt::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 9000;
+  background: repeating-linear-gradient(rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+}
+.crt::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 9001;
+  box-shadow: inset 0 0 110px rgba(0,0,0,.55);
+  border-radius: 3px;
+}
+
+/* ---------- MENU BAR ---------- */
+.menubar {
+  position: absolute; top: 0; left: 0; right: 0; height: 26px; z-index: 5000;
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 10px;
+  background: var(--red);
+  border-bottom: 2px solid #000;
+  font-family: var(--chrome); font-size: 9px; letter-spacing: 1px; color: #000;
+}
+.menubar .mb-logo { font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.menubar .mb-item { opacity: .85; cursor: default; }
+.menubar .mb-item:hover { opacity: 1; background:#000; color:var(--red); padding:0 4px; }
+.menubar .mb-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.diamond { width: 8px; height: 8px; background: #000; transform: rotate(45deg); display:inline-block; }
+
+/* ---------- DESKTOP + ICONS ---------- */
+.desktop { position: absolute; inset: 26px 0 0 0; z-index: 10; }
+.icon-grid {
+  position: absolute; top: 16px; left: 14px;
+  display: grid; grid-auto-flow: column;
+  grid-template-rows: repeat(5, auto); gap: 8px 0;
+}
+.icon {
+  width: 92px; padding: 8px 4px 6px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer; border: 2px solid transparent;
+}
+.icon:hover { background: rgba(212,39,31,.16); border-color: var(--red-dark); }
+.icon.sel { background: var(--red); border-color: #000; }
+.icon.sel .icon-label { background: #000; color: var(--red); }
+.icon-art {
+  width: 44px; height: 40px; display: grid; place-items: center;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,.4));
+}
+.icon-art svg { width: 40px; height: 38px; display: block; }
+.icon-label {
+  font-family: var(--chrome); font-size: 8px; letter-spacing: .5px; color: var(--bone);
+  line-height: 1.5; padding: 1px 3px; max-width: 100%;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* ---------- WINDOWS ---------- */
+.win {
+  position: absolute; z-index: 100;
+  background: var(--bone);
+  border: 2.5px solid #000;
+  box-shadow: 6px 6px 0 var(--shadow);
+  display: flex; flex-direction: column;
+  min-width: 220px;
+}
+.win.dragging { box-shadow: 10px 10px 0 var(--shadow); }
+.win-resize {
+  position: absolute; right: 0; bottom: 0; width: 18px; height: 18px;
+  cursor: nwse-resize; z-index: 6;
+  background:
+    linear-gradient(135deg,
+      transparent 0 38%, #000 38% 46%,
+      transparent 46% 58%, #000 58% 66%,
+      transparent 66% 78%, #000 78% 86%, transparent 86%);
+}
+body.is-resizing, body.is-resizing * { cursor: nwse-resize !important; }
+.win-title {
+  height: 24px; flex: none;
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 5px 0 8px;
+  background: var(--red);
+  border-bottom: 2.5px solid #000;
+  cursor: grab;
+  font-family: var(--chrome); font-size: 9px; letter-spacing: 1px; color: #000;
+}
+.win-title.inactive { background: var(--bone-3); color: #4a3f37; }
+.win.dragging .win-title { cursor: grabbing; }
+.win-title .t-stripes {
+  flex: 1; height: 10px; margin: 0 2px;
+  background: repeating-linear-gradient(#000 0 2px, transparent 2px 4px);
+  opacity: .55;
+}
+.win-title.inactive .t-stripes { opacity: .25; }
+.win-controls { display: flex; gap: 4px; }
+.ctrl {
+  width: 15px; height: 15px; display: grid; place-items: center;
+  background: var(--bone); border: 1.5px solid #000;
+  font-family: var(--chrome); font-size: 8px; color: #000; cursor: pointer;
+  line-height: 1;
+}
+.ctrl:hover { background: #000; color: var(--bone); }
+.ctrl:active { transform: translate(1px,1px); }
+
+.win-body {
+  padding: 14px 16px; overflow: auto;
+  max-height: 62vh; line-height: 1.18;
+  font-size: 19px; color: var(--ink);
+  background:
+    linear-gradient(var(--bone), var(--bone));
+}
+.win-body::-webkit-scrollbar { width: 14px; }
+.win-body::-webkit-scrollbar-track { background: var(--bone-2); border-left: 2px solid #000; }
+.win-body::-webkit-scrollbar-thumb { background: var(--red); border: 2px solid #000; }
+
+/* window typography */
+.win-body h2 {
+  font-family: var(--chrome); font-size: 11px; letter-spacing: 1px;
+  margin: 0 0 4px; color: var(--red-dark);
+}
+.win-body h3 {
+  font-family: var(--chrome); font-size: 9px; letter-spacing: 1px;
+  margin: 14px 0 4px; color: var(--ink);
+  border-bottom: 1.5px dashed var(--bone-3); padding-bottom: 4px;
+}
+.win-body p { margin: 0 0 9px; }
+.win-body a { color: var(--red-dark); text-decoration: underline; }
+.muted { color: #6a5d4d; }
+.kbd { font-family: var(--chrome); font-size: 8px; letter-spacing:.5px; }
+
+/* divider rule */
+.rule { height: 2px; background: #000; margin: 12px 0; opacity: .25; }
+
+/* labelled field rows */
+.field-row { display: flex; gap: 8px; align-items: baseline; margin-bottom: 6px; }
+.field-row .lbl {
+  font-family: var(--chrome); font-size: 8px; letter-spacing: .5px;
+  color: var(--red-dark); min-width: 84px; flex: none; padding-top: 2px;
+}
+
+/* meters */
+.meter { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+.meter .m-name { flex: 1; }
+.meter .m-blocks {
+  font-family: var(--chrome); font-size: 11px; letter-spacing: 2px;
+  color: var(--red); white-space: nowrap;
+}
+.meter .m-blocks .off { color: var(--bone-3); }
+
+/* tag chips */
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; }
+.chip {
+  font-family: var(--chrome); font-size: 8px; letter-spacing: .5px;
+  background: var(--bone-2); border: 1.5px solid #000; padding: 3px 6px; color: var(--ink);
+}
+
+/* buttons */
+.btn {
+  font-family: var(--chrome); font-size: 9px; letter-spacing: 1px;
+  background: var(--bone-2); border: 2px solid #000; color: var(--ink);
+  padding: 6px 12px; cursor: pointer; box-shadow: 3px 3px 0 var(--shadow);
+}
+.btn:hover { background: var(--red); color: #000; }
+.btn:active { transform: translate(3px,3px); box-shadow: none; }
+.btn.primary { background: var(--red); }
+.btn.primary:hover { background: #000; color: var(--red); }
+
+/* tabs */
+.tabs { display: flex; gap: 0; margin: 0 0 12px; border-bottom: 2px solid #000; }
+.tab {
+  font-family: var(--chrome); font-size: 8px; letter-spacing: .5px;
+  padding: 6px 9px; cursor: pointer; border: 2px solid #000; border-bottom: none;
+  background: var(--bone-2); color: #6a5d4d; margin-right: 4px; position: relative; top: 2px;
+}
+.tab.active { background: var(--red); color: #000; top: 0; padding-bottom: 8px; }
+
+/* project / accordion list */
+.row-item { border: 2px solid #000; margin-bottom: 8px; background: var(--bone-2); }
+.row-head {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px; cursor: pointer;
+}
+.row-head:hover { background: var(--red); }
+.row-head .ri-title { flex: 1; font-size: 18px; }
+.row-head .ri-kind {
+  font-family: var(--chrome); font-size: 7px; letter-spacing: .5px;
+  background: #000; color: var(--bone); padding: 3px 5px;
+}
+.row-head .ri-tog { font-family: var(--chrome); font-size: 11px; }
+.row-body { padding: 4px 12px 12px; border-top: 2px solid #000; background: var(--bone); }
+
+/* timeline */
+.tl-item { display: flex; gap: 10px; margin-bottom: 10px; }
+.tl-week {
+  font-family: var(--chrome); font-size: 8px; color: #000; background: var(--red);
+  border: 2px solid #000; padding: 4px 5px; height: max-content; min-width: 52px; text-align: center;
+}
+.tl-main { flex: 1; }
+.tl-phase { font-family: var(--chrome); font-size: 7px; letter-spacing: .5px; color: var(--red-dark); }
+
+/* reflections diary */
+.refl { border: 2px solid #000; background: var(--bone-2); padding: 10px 12px; margin-bottom: 10px; }
+.refl .r-theme { font-family: var(--chrome); font-size: 9px; letter-spacing: .5px; color: var(--red-dark); margin-bottom: 6px; }
+.refl .r-leg { font-family: var(--chrome); font-size: 7px; letter-spacing: .5px; color: #000; }
+
+/* system info */
+.sysinfo { font-size: 18px; }
+.sysinfo .si-row { display: flex; gap: 8px; }
+.sysinfo .si-k { font-family: var(--chrome); font-size: 8px; color: var(--red-dark); min-width: 120px; }
+
+/* contact card */
+.idcard { border: 3px solid #000; background: var(--bone-2); padding: 0; box-shadow: 4px 4px 0 var(--shadow); }
+.idcard .idc-top { background: var(--red); border-bottom: 3px solid #000; padding: 8px 12px; display:flex; justify-content:space-between; align-items:center; }
+.idcard .idc-top .t1 { font-family: var(--chrome); font-size: 11px; color:#000; }
+.idcard .idc-top .t2 { font-family: var(--chrome); font-size: 7px; color:#000; }
+.idcard .idc-body { padding: 12px; display: flex; gap: 12px; }
+.idc-photo {
+  width: 72px; height: 86px; flex: none; border: 2px solid #000; background: var(--black);
+  background-image: repeating-linear-gradient(45deg, rgba(212,39,31,.35) 0 6px, transparent 6px 12px);
+  display: grid; place-items: center;
+}
+.idc-photo span { font-family: var(--chrome); font-size: 7px; color: var(--bone); text-align:center; }
+
+/* ---------- BOOT / LOGIN ---------- */
+.boot {
+  position: absolute; inset: 0; z-index: 20000; background: var(--black);
+  display: grid; place-items: center;
+}
+.login {
+  width: 320px; background: var(--bone); border: 2.5px solid #000; box-shadow: 8px 8px 0 var(--shadow);
+}
+.login .lg-title {
+  height: 24px; background: var(--red); border-bottom: 2.5px solid #000;
+  display: flex; align-items: center; padding: 0 8px;
+  font-family: var(--chrome); font-size: 9px; letter-spacing: 1px; color: #000;
+}
+.login .lg-body { padding: 18px 20px 20px; }
+.login .lg-logo { text-align: center; font-family: var(--chrome); font-size: 16px; color: var(--red-dark); margin-bottom: 4px; }
+.login .lg-sub { text-align: center; font-size: 16px; color: #6a5d4d; margin-bottom: 16px; }
+.input {
+  width: 100%; background: var(--bone-2); border: 2px solid #000; padding: 7px 9px;
+  font-family: var(--body); font-size: 18px; color: var(--ink); margin-bottom: 10px;
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,.15);
+}
+.login-row { display: flex; justify-content: center; margin-top: 8px; }
+.bootbar-wrap { margin-top: 14px; border: 2px solid #000; height: 18px; background: var(--bone-2); padding: 2px; }
+.bootbar { height: 100%; background: repeating-linear-gradient(90deg, var(--red) 0 8px, var(--red-dark) 8px 12px); width: 0%; transition: width .1s linear; }
+
+/* blink caret */
+.blink { animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* generic fade-in for desktop after boot */
+.fade-in { animation: fade .35s ease both; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* small screens: shrink window cap */
+@media (max-width: 640px) {
+  .win-body { max-height: 56vh; font-size: 17px; }
+  .icon { width: 78px; }
+}
