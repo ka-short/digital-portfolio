@@ -743,3 +743,20 @@ section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
   .colophon-row { grid-template-columns: 1fr; }
   .strip { grid-template-columns: 1fr; }
 }
+
+@media (max-width: 600px) {
+  :root { --pad: 20px; }
+  .mast-row { grid-template-columns: 1fr; text-align: center; gap: 10px; }
+  .mast .right { text-align: center; }
+  .mast-bar { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .eyebrow { font-size: 10px; }
+  h1.display { font-size: 38px; }
+  .lede { font-size: 16px; }
+  .byline { grid-template-columns: repeat(2, auto); gap: 14px 24px; }
+  .sec-head { flex-wrap: wrap; }
+  .artifact-feat .a-img { aspect-ratio: 4 / 3; }
+  .refs table { font-size: 11px; }
+  .colophon h2 { font-size: 32px; }
+  .colophon-row { gap: 24px; }
+  .colophon .meta { text-align: left; }
+}

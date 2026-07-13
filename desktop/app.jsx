@@ -5,6 +5,17 @@ const P = window.PORTFOLIO;
 const APPS = window.DESKTOP_APPS;
 const APP_BY_ID = Object.fromEntries(APPS.map((a) => [a.id, a]));
 
+const MOBILE_BP = 720;
+function useIsMobile() {
+  const [mobile, setMobile] = React.useState(() => window.innerWidth <= MOBILE_BP);
+  React.useEffect(() => {
+    const onResize = () => setMobile(window.innerWidth <= MOBILE_BP);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return mobile;
+}
+
 /* ---------------- Clock ---------------- */
 function Clock() {
   const [t, setT] = React.useState("");
@@ -23,12 +34,13 @@ function Clock() {
 }
 
 /* ---------------- Window ---------------- */
-function Win({ data, active, onClose, onFocus, onDrag, onResize }) {
+function Win({ data, active, mobile, onClose, onFocus, onDrag, onResize }) {
   const app = APP_BY_ID[data.id];
   const Body = app.Body;
   const winRef = React.useRef(null);
   const sized = data.h != null;
   const startResize = (e) => {
+    if (mobile) return;
     e.stopPropagation();
     if (e.button !== 0) return;
     onFocus(data.id);
@@ -50,6 +62,7 @@ function Win({ data, active, onClose, onFocus, onDrag, onResize }) {
     window.addEventListener("mouseup", up);
   };
   const startDrag = (e) => {
+    if (mobile) return;
     if (e.button !== 0) return;
     onFocus(data.id);
     const sx = e.clientX, sy = e.clientY, ox = data.x, oy = data.y;
@@ -73,8 +86,8 @@ function Win({ data, active, onClose, onFocus, onDrag, onResize }) {
   return (
     <div
       ref={winRef}
-      className={"win" + (data.drag ? " dragging" : "")}
-      style={{ left: data.x, top: data.y, zIndex: data.z, width: data.w || app.w, height: data.h || undefined, maxWidth: "calc(100% - 24px)" }}
+      className={"win" + (data.drag ? " dragging" : "") + (mobile ? " win-mobile" : "")}
+      style={mobile ? { zIndex: data.z } : { left: data.x, top: data.y, zIndex: data.z, width: data.w || app.w, height: data.h || undefined, maxWidth: "calc(100% - 24px)" }}
       onMouseDown={() => onFocus(data.id)}
     >
       <div className={"win-title" + (active ? "" : " inactive")} onMouseDown={startDrag}>
@@ -85,21 +98,24 @@ function Win({ data, active, onClose, onFocus, onDrag, onResize }) {
           <span className="ctrl" title="close" onClick={(e) => { e.stopPropagation(); onClose(data.id); }}>✕</span>
         </span>
       </div>
-      <div className="win-body" style={sized ? { maxHeight: "none", flex: "1 1 auto", minHeight: 0 } : undefined}><Body /></div>
-      <div className="win-resize" onMouseDown={startResize} title="resize" />
+      <div className="win-body" style={(sized || mobile) ? { maxHeight: "none", flex: "1 1 auto", minHeight: 0 } : undefined}><Body /></div>
+      {!mobile && <div className="win-resize" onMouseDown={startResize} title="resize" />}
     </div>
   );
 }
 
 /* ---------------- Desktop icon ---------------- */
-function DeskIcon({ app, selected, onSelect, onOpen }) {
+function DeskIcon({ app, selected, mobile, onSelect, onOpen }) {
   const Icon = app.Icon;
   return (
     <div
       className={"icon" + (selected ? " sel" : "")}
       onMouseDown={(e) => { e.stopPropagation(); onSelect(app.id); }}
-      onDoubleClick={() => onOpen(app.id)}
-      onClick={(e) => { if (e.detail === 1) onSelect(app.id); }}
+      onDoubleClick={() => { if (!mobile) onOpen(app.id); }}
+      onClick={(e) => {
+        if (mobile) { onOpen(app.id); return; }
+        if (e.detail === 1) onSelect(app.id);
+      }}
     >
       <span className="icon-art"><Icon /></span>
       <span className="icon-label">{app.label}</span>
@@ -166,6 +182,7 @@ function Boot({ onDone }) {
 
 /* ---------------- OS ---------------- */
 function OS() {
+  const mobile = useIsMobile();
   const [booted, setBooted] = React.useState(location.hash === "#desktop");
   const [wins, setWins] = React.useState([]);
   const [sel, setSel] = React.useState(null);
@@ -212,18 +229,18 @@ function OS() {
       {/* icons */}
       <div className="icon-grid" onMouseDown={(e) => e.stopPropagation()}>
         {APPS.map((a) => (
-          <DeskIcon key={a.id} app={a} selected={sel === a.id} onSelect={setSel} onOpen={openApp} />
+          <DeskIcon key={a.id} app={a} selected={sel === a.id} mobile={mobile} onSelect={setSel} onOpen={openApp} />
         ))}
       </div>
 
       {/* hint */}
       <div style={{ position: "absolute", bottom: 10, right: 14, fontFamily: "var(--chrome)", fontSize: 8, color: "rgba(239,230,210,.45)", textShadow: "1px 1px 0 #000", textAlign: "right", lineHeight: 1.8 }}>
-        DOUBLE-CLICK AN ICON TO OPEN<br />DRAG TITLE BARS TO MOVE · DRAG CORNER TO RESIZE
+        {mobile ? "TAP AN ICON TO OPEN" : <>DOUBLE-CLICK AN ICON TO OPEN<br />DRAG TITLE BARS TO MOVE · DRAG CORNER TO RESIZE</>}
       </div>
 
       {/* windows */}
       {wins.map((w) => (
-        <Win key={w.id} data={w} active={w.id === activeId}
+        <Win key={w.id} data={w} active={w.id === activeId} mobile={mobile}
           onClose={closeApp} onFocus={focusApp} onDrag={dragApp} onResize={resizeApp} />
       ))}
     </div>

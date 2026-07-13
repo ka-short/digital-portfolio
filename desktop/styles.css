@@ -336,7 +336,7 @@ body.is-resizing, body.is-resizing * { cursor: nwse-resize !important; }
   display: grid; place-items: center;
 }
 .login {
-  width: 320px; background: var(--bone); border: 2.5px solid #000; box-shadow: 8px 8px 0 var(--shadow);
+  width: min(320px, 92vw); background: var(--bone); border: 2.5px solid #000; box-shadow: 8px 8px 0 var(--shadow);
 }
 .login .lg-title {
   height: 24px; background: var(--red); border-bottom: 2.5px solid #000;
@@ -367,4 +367,32 @@ body.is-resizing, body.is-resizing * { cursor: nwse-resize !important; }
 @media (max-width: 640px) {
   .win-body { max-height: 56vh; font-size: 17px; }
   .icon { width: 78px; }
+}
+
+/* mobile: drop the laptop chrome, run the screen full-bleed, windows go fullscreen */
+@media (max-width: 720px) {
+  html, body { overflow-y: auto; }
+  .laptop { position: static; padding: 0; min-height: 100vh; background: var(--black); }
+  .laptop-body { width: 100%; height: 100vh; height: 100dvh; }
+  .bezel {
+    border: none; border-radius: 0; padding: 0; box-shadow: none;
+  }
+  .bezel::before { display: none; }
+  .brand { display: none; }
+  .deck { display: none; }
+  .screen { border: none; border-radius: 0; overflow-y: auto; }
+
+  .icon-grid {
+    position: static; padding: 34px 6px 10px;
+    grid-auto-flow: row; grid-template-rows: none;
+    grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  }
+  .icon { width: auto; }
+
+  .win.win-mobile {
+    position: fixed; inset: 26px 0 0 0; width: 100% !important; height: auto !important;
+    max-width: 100%; box-shadow: none; border-width: 0 0 0 0;
+  }
+  .win.win-mobile .win-title { cursor: default; }
+  .win.win-mobile.dragging { box-shadow: none; }
 }
