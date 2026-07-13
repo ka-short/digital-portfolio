@@ -393,7 +393,8 @@ section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
 .refs {
   margin-top: 56px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+  max-width: 560px;
   gap: 48px;
 }
 .refs h4 {

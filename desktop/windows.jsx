@@ -90,6 +90,7 @@ function AboutWin() {
   return (
     <div className="sysinfo">
       <h2>// THE PLACEMENT</h2>
+      <div className="field-row"><span className="lbl">EMPLOYER</span><span>{P.identity.employer}</span></div>
       <div className="field-row"><span className="lbl">ROLE</span><span>{P.identity.role}</span></div>
       <div className="field-row"><span className="lbl">DIVISION</span><span>{P.identity.company}</span></div>
       <div className="field-row"><span className="lbl">SECTOR</span><span>{P.identity.sector} · {P.identity.location}</span></div>
@@ -99,7 +100,7 @@ function AboutWin() {
       <p>{P.about.company}</p>
       <h3>MY REMIT</h3>
       <p>{P.about.role}</p>
-      <h3>FLAGSHIP — PROJECT ATLAS</h3>
+      <h3>FLAGSHIP — MMP</h3>
       <p>{P.about.project}</p>
     </div>
   );
@@ -128,13 +129,6 @@ function SkillsWin() {
       )}
       {tab === "fw" && (
         <div>
-          <h3>TSC · SKILLS FRAMEWORK (ICT)</h3>
-          {P.tsc.map((x) => (
-            <div key={x.code} style={{ marginBottom: 8 }}>
-              <Meter name={`${x.name}`} n={x.level} max={5} />
-              <div className="muted" style={{ fontSize: 15 }}><span className="kbd">{x.code}</span> · {x.evidence}</div>
-            </div>
-          ))}
           <h3>CRITICAL CORE SKILLS</h3>
           {P.ccs.map((x) => (
             <p key={x.name}><span className="kbd" style={{ color: "var(--red-dark)" }}>{x.name.toUpperCase()} [{x.level}] — </span>{x.task}</p>
@@ -181,7 +175,7 @@ function ProjectsWin() {
 function TimelineWin() {
   return (
     <div>
-      <h2>// 20 WEEKS — RUN LOG</h2>
+      <h2>// RUN LOG</h2>
       {P.timeline.map((t) => (
         <div className="tl-item" key={t.week}>
           <div className="tl-week">{t.week}</div>
@@ -253,9 +247,9 @@ function ContactWin() {
 function SystemWin() {
   const id = P.identity;
   const stats = [
-    ["USER", id.name], ["BUILD", "INTERN.OS v1.4"], ["UPTIME", id.period],
-    ["PRs MERGED", "7"], ["LOC SHIPPED", "5,400"], ["RFCs ADOPTED", "1 of 3 authored"],
-    ["DRIFT CATCHES", "2 (production)"], ["DASHBOARDS", "3"], ["TEAMS SERVED", "6"],
+    ["USER", id.name], ["EMPLOYER", id.employer], ["UPTIME", id.period],
+    ["PROJECTS", "3 (MMP, GM Capture, Arize AI)"], ["FE BUILD MEM", "16GB → 4GB"],
+    ["GM CAPTURE FEATURES", "8+"], ["REACT", "18 → 19, on Vite"],
   ];
   return (
     <div className="sysinfo">

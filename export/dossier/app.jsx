@@ -25,23 +25,20 @@ function Masthead() {
         <div className="mast-row">
           <div className="left">
             VOL. I · NO. 1<br />
-            CIT2C27 — IND1<br />
-            DIGITAL PORTFOLIO · 40%
+            DIGITAL PORTFOLIO
           </div>
           <div className="center">
             The Internship Dossier
-            <span className="red">FILE: MISHA / 0001 / 2026</span>
+            <span className="red">FILE: MISHA / OCBC / 2026</span>
           </div>
           <div className="right">
             {date}<br />
-            SINGAPORE EDITION<br />
-            ESTABLISHED JAN 2026
+            SINGAPORE EDITION
           </div>
         </div>
         <div className="mast-bar">
-          <span>20 weeks · 5 artifacts · 2 RFCs · 1 internship</span>
-          <span>misha@example.com · linkedin · github</span>
-          <span>"Calibration, not intuition."</span>
+          <span>{P.identity.period} · {P.identity.employer}</span>
+          <span>{P.identity.email} · {P.identity.linkedin} · {P.identity.github}</span>
         </div>
       </div>
     </header>
@@ -68,16 +65,15 @@ function Hero() {
             </dl>
           </aside>
           <div className="hero-title">
-            <div className="eyebrow">— A FIELD REPORT FROM 20 WEEKS INSIDE A PLATFORM TEAM</div>
+            <div className="eyebrow">— A FIELD REPORT FROM INSIDE A BANK'S PLATFORM TEAM</div>
             <h1 className="display">Notebooks<br />into <em>endpoints.</em></h1>
             <p className="lede">{id.tagline} An honest account of what was built, what broke, what was learned — and what the work is becoming.</p>
             <div className="byline">
               <div>BY<span className="v">{id.name}</span></div>
-              <div>AT<span className="v">AI Platforms</span></div>
-              <div>OVER<span className="v">20 weeks</span></div>
-              <div>STATUS<span className="v">Submitted</span></div>
+              <div>AT<span className="v">{id.employer}</span></div>
+              <div>OVER<span className="v">{id.period}</span></div>
+              <div>STATUS<span className="v">In progress</span></div>
             </div>
-            <div className="stamp">CLEARED FOR<br />SUBMISSION<span className="sub">CIT2C27 / IND1</span></div>
           </div>
         </div>
       </div>
@@ -111,7 +107,7 @@ function About() {
           </article>
           <article data-num="03">
             <div className="lbl">— THE PROJECT</div>
-            <h3>Project ATLAS</h3>
+            <h3>MMP</h3>
             <p>{a.project}</p>
           </article>
         </div>
@@ -177,21 +173,6 @@ function KSA() {
         </div>
 
         <div className="refs reveal">
-          <div>
-            <h4>— Mapped to SkillsFuture · Technical Skills & Competencies</h4>
-            <table>
-              <thead><tr><th>Code</th><th>Competency</th><th>Lvl</th></tr></thead>
-              <tbody>
-                {P.tsc.map((t) => (
-                  <tr key={t.code}>
-                    <td style={{ width: 110, color: "var(--ink-3)", fontSize: 11 }}>{t.code}</td>
-                    <td><div className="nm">{t.name}</div><div className="evi">{t.evidence}</div></td>
-                    <td className="lvl" style={{ width: 60 }}>L{t.level}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
           <div>
             <h4>— Mapped to SkillsFuture · Critical Core Skills</h4>
             <table>
@@ -264,7 +245,7 @@ function Timeline() {
           <div className="num">IV.</div>
           <div className="ttl">
             <span className="kicker">— SECTION FOUR</span>
-            <h2>The Twenty Weeks</h2>
+            <h2>The Run Log</h2>
           </div>
           <div className="stub">PP. 19 — 22</div>
         </div>
@@ -354,7 +335,7 @@ function Colophon() {
           <h2>End of <em>file.</em></h2>
           <div className="meta">
             <div>set in Tiempos & JetBrains Mono</div>
-            <div>printed digitally · April 2026</div>
+            <div>printed digitally</div>
             <div>© {P.identity.name} · all rights remembered</div>
             <div>artifacts redacted of proprietary information</div>
           </div>
