@@ -310,7 +310,7 @@ body.is-resizing, body.is-resizing * { cursor: nwse-resize !important; }
 /* reflections diary */
 .refl { border: 2px solid #000; background: var(--bone-2); padding: 10px 12px; margin-bottom: 10px; }
 .refl .r-theme { font-family: var(--chrome); font-size: 9px; letter-spacing: .5px; color: var(--red-dark); margin-bottom: 6px; }
-.refl .r-leg { font-family: var(--chrome); font-size: 7px; letter-spacing: .5px; color: #000; }
+.refl .r-leg, .r-leg { font-family: var(--chrome); font-size: 7px; letter-spacing: .5px; color: #000; }
 
 /* system info */
 .sysinfo { font-size: 18px; }

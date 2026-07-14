@@ -388,13 +388,17 @@ section { padding: 64px 0; border-bottom: 1px solid var(--rule); }
 .k-item .note {
   font-size: 12px; color: var(--ink-3); margin-top: 4px; line-height: 1.5;
 }
+.k-item .note.corrective {
+  margin-top: 6px; color: var(--red-dark, var(--red));
+}
+.k-item .note.corrective em { font-style: normal; font-weight: 600; }
 
 /* TSC reference table */
 .refs {
   margin-top: 56px;
   display: grid;
   grid-template-columns: 1fr;
-  max-width: 560px;
+  max-width: 900px;
   gap: 48px;
 }
 .refs h4 {

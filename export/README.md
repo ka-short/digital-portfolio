@@ -1,6 +1,6 @@
 # Digital Portfolio — Misha
 
-CIT2C27 IND1 · 20-week internship at AI Platforms · Group Data Office.
+Internship at OCBC, AI Platforms · Group Data Office (Mar 2026 – Mar 2027).
 
 ## Local preview
 Just open `index.html` in a browser, or run a tiny server:

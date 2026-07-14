@@ -25,10 +25,10 @@ window.PORTFOLIO = {
 
   ksa: {
     knowledge: [
-      { name: "Full-stack web development", level: 4, note: "React 18 to 19, Vite, Python. Shipped 8+ features end to end in GM Capture, fixed the MMP frontend." },
-      { name: "AI governance & model observability", level: 3, note: "MMP tracks drift in models and their runs. Arize AI for trace submission, latency, and evaluation." },
-      { name: "MLOps / LLM deployment", level: 2, note: "GPU-hosted LLMs inside OCBC. Comparing Gemma model configurations for quality vs. memory footprint." },
-      { name: "Security", level: 2, note: "Learned banking-specific security practices, different from how I worked in poly." },
+      { name: "Full-stack web development", level: 4, note: "React 18 to 19, Vite, Python. Shipped 8+ features end to end in GM Capture, fixed the MMP frontend.", corrective: "None required for current scope — keep pace by continuing to match the coding conventions of the engineers who came before me as the codebase grows." },
+      { name: "AI governance & model observability", level: 3, note: "MMP tracks drift in models and their runs. Arize AI for trace submission, latency, and evaluation.", corrective: "Still building depth here — next step is going further into Arize's enterprise features (live evaluations for agentic flows) rather than just trace submission and latency." },
+      { name: "MLOps / LLM deployment", level: 2, note: "GPU-hosted LLMs inside OCBC. Comparing Gemma model configurations for quality vs. memory footprint.", corrective: "Lowest-level competency right now — need more hands-on GPU deployment experience beyond comparing two Gemma configurations on a shared dataset." },
+      { name: "Security", level: 2, note: "Learned banking-specific security practices, different from how I worked in poly.", corrective: "Still adapting from poly-level security habits to OCBC's banking-specific practices — need more exposure before this reaches the same level as my dev skills." },
     ],
     skills: [
       { name: "React (18 → 19)", level: 4 },
@@ -48,12 +48,36 @@ window.PORTFOLIO = {
 
   // Critical Core Skills (CCS).
   ccs: [
-    { name: "Problem Solving", level: "Intermediate", task: "Compared Gemma model configurations to find one with the same quality but a smaller memory footprint." },
-    { name: "Communication", level: "Intermediate", task: "Drafted a tutorial and client library plan for Arize AI, for data scientists to use." },
-    { name: "Collaboration", level: "Intermediate", task: "Worked with coworkers on GM Capture when stuck, despite owning it mostly solo." },
-    { name: "Self-Management", level: "Advanced", task: "Owned GM Capture end to end, shipping 8+ features." },
-    { name: "Sense Making", level: "Intermediate", task: "Cut MMP's frontend build memory from 16GB to 4GB by migrating to React 19 and Vite." },
-    { name: "Digital Fluency", level: "Advanced", task: "Learned Vite, React 19, Python, and OCBC's security practices, on top of the Arize observability stack." },
+    { name: "Problem Solving", level: "Intermediate",
+      task: "Compared Gemma model configurations to find one with the same quality but a smaller memory footprint.",
+      action: "Ran two Gemma configurations against the same evaluation dataset inside OCBC's MLOps GPU setup to compare quality directly instead of assuming.",
+      result: "Found an alternate configuration with a smaller memory footprint and comparable quality — still being confirmed before any deployment decision.",
+      met: "Yes — tested against real data rather than guessing, which is the Intermediate bar for this skill." },
+    { name: "Communication", level: "Intermediate",
+      task: "Drafted a tutorial and client library plan for Arize AI, for data scientists to use.",
+      action: "Wrote a tutorial and planned a client library for Arize AI aimed specifically at data scientists, not engineers.",
+      result: "Gave data scientists a self-serve way to pick up the observability tooling instead of needing hand-holding from the platform team.",
+      met: "Yes — translated technical setup into something a different audience (data scientists) can use on their own." },
+    { name: "Collaboration", level: "Intermediate",
+      task: "Worked with coworkers on GM Capture when stuck, despite owning it mostly solo.",
+      action: "Flagged where I was stuck on GM Capture and brought coworkers in for those specific points, rather than pushing through alone or handing off the whole project.",
+      result: "Kept ownership of the project while still getting past the parts I couldn't solve myself, shipping 8+ features overall.",
+      met: "Yes — knew when to ask for help without giving up ownership, which is the Intermediate expectation." },
+    { name: "Self-Management", level: "Advanced",
+      task: "Owned GM Capture end to end, shipping 8+ features.",
+      action: "Took full ownership of GM Capture — scoping, building, and shipping features myself with minimal oversight.",
+      result: "Delivered 8+ features end to end on a tool colleagues now use to generate stock reports.",
+      met: "Yes — sustained solo ownership of a full project is the Advanced bar, not just the Intermediate one." },
+    { name: "Sense Making", level: "Intermediate",
+      task: "Cut MMP's frontend build memory from 16GB to 4GB by migrating to React 19 and Vite.",
+      action: "Read through MMP's existing codebase to understand why the React 18 build was so memory-heavy, then migrated it to React 19 on Vite.",
+      result: "Cut frontend build memory from 16GB to 4GB, a change now live in master.",
+      met: "Yes — diagnosed the actual cause of the problem before picking a fix, rather than just following instructions." },
+    { name: "Digital Fluency", level: "Advanced",
+      task: "Learned Vite, React 19, Python, and OCBC's security practices, on top of the Arize observability stack.",
+      action: "Picked up Vite, React 19, Python, banking security practices, and the Arize observability stack on the job, with no formal training in any of them beforehand.",
+      result: "Went from never having built a full application to shipping across MMP, GM Capture, and Arize AI within the same internship.",
+      met: "Yes — picked up multiple new tools fast enough that coworkers noticed, which is the Advanced bar." },
   ],
 
   artifacts: [
@@ -65,6 +89,7 @@ window.PORTFOLIO = {
       summary: "AI governance and documentation platform for OCBC's models. Tracks drift in models and their runs.",
       contribution: "Fixed and rebuilt the frontend. Migrated the codebase from React 18 to React 19 and moved the build to Vite.",
       impact: "Cut frontend build memory from 16GB to 4GB. All code pushed to master; assisted with post-mortem bugs after release.",
+      usage: "Used day-to-day by OCBC's model teams to track drift and maintain documentation across their models. The rebuilt frontend is live in production (pushed to master), not a prototype.",
       proof: ["Internal to OCBC, not public"],
     },
     {
@@ -74,7 +99,8 @@ window.PORTFOLIO = {
       stack: ["React", "Python", "Bloomberg data"],
       summary: "Lets workers upload documents and generates a report on the stock, using data pulled from Bloomberg.",
       contribution: "Built almost entirely by myself, with help from coworkers when needed. Shipped 8+ features end to end.",
-      impact: "Working tool used to generate stock reports from uploaded documents.",
+      impact: "Enabled colleagues to generate stock reports without manual work, pulling data straight from Bloomberg.",
+      usage: "Colleagues upload documents directly into it and get back a generated stock report — a working tool people use themselves, not a demo.",
       proof: ["Internal to OCBC, not public"],
     },
     {
@@ -85,6 +111,7 @@ window.PORTFOLIO = {
       summary: "Submitting traces to the Arize platform to see what happened step to step and measure latency. Moving from Arize Phoenix to the enterprise version.",
       contribution: "Exploring enterprise features, including live evaluations for agentic flows. Evaluating two different LLM configurations on a shared dataset to check they're on par. Setting up a test space and writing a tutorial and client library for data scientists.",
       impact: "Ongoing, early stage.",
+      usage: "Meant for OCBC's data scientists — once the tutorial and client library are ready, they'll use them to submit traces, check latency, and run evaluations on their own models without going through the platform team.",
       proof: ["Internal to OCBC, not public"],
     },
     {
@@ -95,6 +122,7 @@ window.PORTFOLIO = {
       summary: "OCBC's MLOps team deploys LLMs on GPU inside the bank. The Gemma model is deployed; found a different configuration with similar quality but a smaller memory footprint.",
       contribution: "Comparing the two configurations on the same dataset to check quality actually holds up.",
       impact: "Ongoing.",
+      usage: "Feeds directly into what OCBC's MLOps team runs on GPU in production — if the alternate Gemma configuration holds up, it replaces the current one for actual deployment, not just as a benchmark exercise.",
       proof: ["Internal to OCBC, not public"],
     },
   ],
@@ -116,6 +144,24 @@ window.PORTFOLIO = {
       challenge: "Never used ReactJS in school, and never built a full application either, only prototypes.",
       action: "Learned ReactJS and how full applications are structured while actually working on MMP and GM Capture instead of in a classroom.",
       outcome: "Picked it up fast enough that coworkers were impressed, but that wasn't luck. I put in a lot of effort to actually understand the underlying architecture of the codebases I was working in, so my fixes matched the style my predecessors used.",
+    },
+    {
+      theme: "The MMP memory problem",
+      challenge: "MMP's frontend build was eating 16GB of RAM, which made local builds painfully slow and sometimes crashed CI outright.",
+      action: "Dug into the Vite config and the React 18 to 19 migration to find where memory was actually being spent instead of just bumping the limit.",
+      outcome: "Got the build down to 4GB. Small change on paper, but it made the day-to-day dev loop noticeably less painful for everyone touching that repo.",
+    },
+    {
+      theme: "Security practices in a bank",
+      challenge: "Poly didn't teach anything about the kind of security review and access control that's standard practice inside OCBC. Every request for data or a new endpoint came with questions I hadn't had to think about before.",
+      action: "Asked a lot of questions early instead of guessing, and paid attention to how senior engineers reviewed PRs for security issues, not just functionality.",
+      outcome: "Started catching some of those issues myself before review, which made the PRs I sent out cleaner and faster to approve.",
+    },
+    {
+      theme: "Owning GM Capture solo",
+      challenge: "GM Capture wasn't a shared project. Most of the 8+ features were mine to design and ship end to end, with no one else driving the direction.",
+      action: "Had to get comfortable making product-ish calls on my own, like how a feature should behave, not just how to code it, and check in with coworkers only when it mattered.",
+      outcome: "Realised I actually like that kind of ownership, and it's part of what pushed me toward wanting a role with more direct stakeholder interaction.",
     },
   ],
 

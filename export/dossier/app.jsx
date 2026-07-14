@@ -148,6 +148,7 @@ function KSA() {
               <div className="k-item" key={it.name}>
                 <div className="row"><div className="name">{it.name}</div><Pips n={it.level} /></div>
                 <div className="note">{it.note}</div>
+                {it.corrective && <div className="note corrective"><em>Next step — </em>{it.corrective}</div>}
               </div>
             ))}
           </div>
@@ -176,13 +177,15 @@ function KSA() {
           <div>
             <h4>— Mapped to SkillsFuture · Critical Core Skills</h4>
             <table>
-              <thead><tr><th>Skill</th><th>Level</th><th>Evidence</th></tr></thead>
+              <thead><tr><th>Skill</th><th>Level</th><th>Action taken</th><th>Result</th><th>Level met?</th></tr></thead>
               <tbody>
                 {P.ccs.map((c) => (
                   <tr key={c.name}>
-                    <td className="nm" style={{ width: 130 }}>{c.name}</td>
-                    <td className="lvl" style={{ width: 100 }}>{c.level}</td>
-                    <td className="evi">{c.task}</td>
+                    <td className="nm" style={{ width: 120 }}>{c.name}</td>
+                    <td className="lvl" style={{ width: 90 }}>{c.level}</td>
+                    <td className="evi">{c.action || c.task}</td>
+                    <td className="evi">{c.result}</td>
+                    <td className="evi" style={{ width: 130 }}>{c.met}</td>
                   </tr>
                 ))}
               </tbody>
@@ -225,6 +228,7 @@ function Artifacts() {
                 <dl className="meta">
                   <div><dt>Contribution</dt><dd>{a.contribution}</dd></div>
                   <div><dt>Impact</dt><dd>{a.impact}</dd></div>
+                  <div><dt>How it's used</dt><dd>{a.usage}</dd></div>
                   <div><dt>Stack</dt><dd className="stack">{a.stack.map((s) => <span key={s}>{s}</span>)}</dd></div>
                   <div><dt>Proof</dt><dd className="proof">{a.proof.map((p) => <span key={p}>{p}</span>)}</dd></div>
                 </dl>

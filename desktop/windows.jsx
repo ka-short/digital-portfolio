@@ -119,6 +119,12 @@ function SkillsWin() {
         <div>
           <h3>KNOWLEDGE</h3>
           {k.knowledge.map((x) => <Meter key={x.name} name={x.name} n={x.level} max={5} />)}
+          {k.knowledge.map((x) => (
+            <p key={x.name + "-note"} style={{ fontSize: 13 }}>
+              <span className="kbd" style={{ color: "var(--red-dark)" }}>{x.name.toUpperCase()} — </span>{x.note}
+              {x.corrective && <><br /><span className="kbd" style={{ color: "var(--red-dark)" }}>NEXT STEP — </span>{x.corrective}</>}
+            </p>
+          ))}
           <h3>SKILLS</h3>
           {k.skills.map((x) => <Meter key={x.name} name={x.name} n={x.level} max={5} />)}
           <h3>ATTITUDES</h3>
@@ -131,7 +137,12 @@ function SkillsWin() {
         <div>
           <h3>CRITICAL CORE SKILLS</h3>
           {P.ccs.map((x) => (
-            <p key={x.name}><span className="kbd" style={{ color: "var(--red-dark)" }}>{x.name.toUpperCase()} [{x.level}] — </span>{x.task}</p>
+            <p key={x.name} style={{ marginBottom: 12 }}>
+              <span className="kbd" style={{ color: "var(--red-dark)" }}>{x.name.toUpperCase()} [{x.level}]</span><br />
+              <span className="r-leg">ACTION — </span>{x.action || x.task}<br />
+              <span className="r-leg">RESULT — </span>{x.result}<br />
+              <span className="r-leg">LEVEL MET — </span>{x.met}
+            </p>
           ))}
         </div>
       )}
@@ -161,6 +172,8 @@ function ProjectsWin() {
                 <p>{a.contribution}</p>
                 <h3>IMPACT</h3>
                 <p>{a.impact}</p>
+                <h3>HOW IT'S USED</h3>
+                <p>{a.usage}</p>
                 <h3>PROOF</h3>
                 {a.proof.map((pr) => <div key={pr} className="kbd" style={{ marginBottom: 3 }}>› {pr}</div>)}
               </div>
