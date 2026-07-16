@@ -298,6 +298,10 @@ body.is-resizing, body.is-resizing * { cursor: nwse-resize !important; }
 .row-head .ri-tog { font-family: var(--chrome); font-size: 11px; }
 .row-body { padding: 4px 12px 12px; border-top: 2px solid #000; background: var(--bone); }
 
+/* project screenshots */
+.shots { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0; }
+.shot { width: 100%; max-width: 320px; border: 2px solid #000; box-shadow: 3px 3px 0 var(--shadow); }
+
 /* timeline */
 .tl-item { display: flex; gap: 10px; margin-bottom: 10px; }
 .tl-week {
@@ -329,6 +333,7 @@ body.is-resizing, body.is-resizing * { cursor: nwse-resize !important; }
   display: grid; place-items: center;
 }
 .idc-photo span { font-family: var(--chrome); font-size: 7px; color: var(--bone); text-align:center; }
+.idc-photo img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ---------- BOOT / LOGIN ---------- */
 .boot {

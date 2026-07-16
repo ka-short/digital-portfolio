@@ -15,6 +15,7 @@ window.PORTFOLIO = {
     github: "github.com/ka-short",
     pronouns: "she/her",
     tagline: "Building AI governance and LLM observability tooling inside a bank.",
+    photo: "assets/id-photo.png",
   },
 
   about: {
@@ -102,6 +103,7 @@ window.PORTFOLIO = {
       impact: "Enabled colleagues to generate stock reports without manual work, pulling data straight from Bloomberg.",
       usage: "Colleagues upload documents directly into it and get back a generated stock report — a working tool people use themselves, not a demo.",
       proof: ["Internal to OCBC, not public"],
+      screenshots: ["assets/gm-capture-1.png"],
     },
     {
       id: "arize-ai",

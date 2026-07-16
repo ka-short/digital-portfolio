@@ -176,6 +176,16 @@ function ProjectsWin() {
                 <p>{a.usage}</p>
                 <h3>PROOF</h3>
                 {a.proof.map((pr) => <div key={pr} className="kbd" style={{ marginBottom: 3 }}>› {pr}</div>)}
+                {a.screenshots && a.screenshots.length > 0 && (
+                  <>
+                    <h3>SCREENSHOTS</h3>
+                    <div className="shots">
+                      {a.screenshots.map((src) => (
+                        <img key={src} className="shot" src={src} alt={a.title + " screenshot"} />
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -243,7 +253,9 @@ function ContactWin() {
       <div className="idcard">
         <div className="idc-top"><span className="t1">{id.name.toUpperCase()}</span><span className="t2">INTERN ID · {id.pronouns}</span></div>
         <div className="idc-body">
-          <div className="idc-photo"><span>PHOTO<br />HERE</span></div>
+          <div className="idc-photo">
+            {id.photo ? <img src={id.photo} alt={id.name} /> : <span>PHOTO<br />HERE</span>}
+          </div>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 17, marginBottom: 6 }}>{id.role}</div>
             <div className="field-row"><span className="lbl">EMAIL</span><span>{id.email}</span></div>
